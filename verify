@@ -1,0 +1,27 @@
+#!/bin/sh
+
+cd $(dirname "$0")
+
+. ./params.sh
+
+user_answer=$@
+
+if test -n "$user_answer" -a -e "tests/${REMOTE_ADDR}/a"
+then
+	read real_answer < "tests/${REMOTE_ADDR}/a"
+
+	if test "$user_answer" = "$real_answer"
+	then
+		date -d "${VERIFY_TIME}sec" +%s > "verified/${REMOTE_ADDR}"
+		chmod g+w "verified/${REMOTE_ADDR}"
+		phinfo "Answer correct. You are now verified for ${VERIFY_TIME} seconds."
+	else
+		pherror 'Answer incorrect. Please try again.'
+	fi
+
+	rm -rf "tests/${REMOTE_ADDR}"
+else
+	pherror 'You must provide an answer. Please try again.'
+fi
+
+phitem 1 Return /captcha

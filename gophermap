@@ -1,0 +1,4 @@
+0About Gopher CAPTCHA	about.txt
+1Get verified	test
+0Check verification status	status
+0Example script	status.sh

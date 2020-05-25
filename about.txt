@@ -1,0 +1,28 @@
+Gopher CAPTCHA API
+==================
+
+Checking if an IP is verified
+-----------------------------
+
+To check if an IP is verified, make a request to:
+
+gopher://khzae.net/0/captcha/check[<TAB or ?><IP>]
+
+If the optional parameter <IP> is omitted, the verification status
+of the client making the request is returned.
+
+The response will be the UNIX timestamp when the verification of
+the specified IP expires, or 0 if it has already expired.
+
+Example:
+
+$ curl gopher://khzae.net/0/captcha/check?123.456.78.9
+1582563368
+
+
+Getting verified
+----------------
+
+To become verified, a user must visit:
+
+gopher://khzae.net/1/captcha/test

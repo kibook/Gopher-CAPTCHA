@@ -1,0 +1,12 @@
+#!/bin/sh
+
+expiration=$(curl -s "gopher://khzae.net/0/captcha/check?${REMOTE_ADDR}")
+
+if test "$expiration" -eq 0
+then
+	echo "You are not verified."
+else
+	now=$(date +%s)
+	timeleft=$((expiration - now))
+	echo "You are verified for ${timeleft} more seconds."
+fi

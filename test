@@ -1,0 +1,26 @@
+#!/bin/sh
+
+cd $(dirname "$0")
+
+NOW=$(date +%s)
+
+find verified -type f | while read ver
+do
+	read timestamp < "$ver"
+
+	timestamp=$((timestamp))
+
+	if test "$timestamp" -lt "$NOW"
+	then
+		rm "$ver"
+	fi
+done
+
+random=$(find questions -type d | sort -R | head -n 1)
+
+mkdir -p "tests/${REMOTE_ADDR}"
+
+cp "${random}/q" "${random}/a" "tests/${REMOTE_ADDR}"
+
+phtext < "tests/${REMOTE_ADDR}/q"
+phitem 7 Answer /captcha/verify

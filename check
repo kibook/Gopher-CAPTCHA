@@ -1,0 +1,21 @@
+#!/bin/sh
+
+cd $(dirname "$0")
+
+now=$(date +%s)
+
+IP=${@:-$REMOTE_ADDR}
+
+find verified -type f | while read ver
+do
+	read timestamp < "$ver"
+
+	timestamp=$((timestamp))
+
+	if test "$timestamp" -lt "$now"
+	then
+		rm "$ver"
+	fi
+done
+
+test -e "verified/${IP}" && cat "verified/${IP}" || echo 0
